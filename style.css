@@ -1,10 +1,10 @@
 body{
-    color: #292a31;
+    color: #76788a;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 18px;
     line-height: 1.6;
     margin: 0;
-    background-color: #1c1c1c;
+    background-color: #000000;
 }
 
 header,
@@ -90,9 +90,9 @@ p {
     flex: 1;
     padding: 20px 24px;
     margin-bottom: 0px;
-    border: 1px solid #deddea;
+    border: 1px solid #1e1e22;
     border-radius: 12px;
-    background-color: #f4f3ff;
+    background-color: #1a1a1e;
 }
 
 *,
@@ -104,8 +104,8 @@ p {
 .subscribe-card {
     padding: 24px;
     margin-top: 32px;
-    background-color: #f4f3ff;
-    border: 1px solid #deddea;
+    background-color: #1e1e22;
+    border: 1px solid #1a1a1e;
     border-radius: 12px;
 }
 
@@ -128,7 +128,7 @@ button {
     padding: 12px 18px;
     border: 0;
     border-radius: 10px;
-    color: #ffffff;
+    color: #1e1e22;
     background-color: #635bff;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.2s ease;
