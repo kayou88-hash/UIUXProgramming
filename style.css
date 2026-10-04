@@ -180,7 +180,7 @@ button:active {
         margin-top: 40px;
     }
 
-    hi{
+    h1{
         font-size: 36px;
     }
     h2{
@@ -216,6 +216,25 @@ button:active {
     button{
         /*모바일에서도 버튼의 누르는 영역이 너무 낮아지지않게 설정*/
         min-height: 48px;
+    }
+
+    #subscribeMessage{
+        margin-top: 16px;
+        color: #555763;
+    }
+
+    #subscribeMessage.is-success{
+        color: #245c3a;
+        background-color: #e7f7ed;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 700;
+    }
+
+    #subscribeButton:disabled{
+        color: #ffffff;
+        background-color: #a8a8b2;
+        cursor: not-allowed;
     }
 
 }
