@@ -218,6 +218,9 @@ button:active {
         min-height: 48px;
     }
 
+}
+
+
     #subscribeMessage{
         margin-top: 16px;
         color: #555763;
@@ -237,4 +240,3 @@ button:active {
         cursor: not-allowed;
     }
 
-}
