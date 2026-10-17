@@ -67,7 +67,7 @@ h1 {
 }
 
 h2 {
-    color: #635bff;
+    color: #9fa09d;
     font-size: 32px;
     font-weight: 800;
     line-height: 1.3;
@@ -116,7 +116,7 @@ p {
 .subscribe-card {
     padding: 24px;
     margin-top: 32px;
-    background-color: #1e1e22;
+    background-color: #414149;
     border: 1px solid #1a1a1e;
     border-radius: 12px;
 }
@@ -131,7 +131,7 @@ input {
     flex: 1;
     min-width: 0;
     padding: 12px;
-    border: 1px solid #b8b7c5;
+    border: 1px solid #b8b7b8;
     border-radius: 10px;
 
 }
@@ -140,8 +140,8 @@ button {
     padding: 12px 18px;
     border: 0;
     border-radius: 10px;
-    color: #1e1e22;
-    background-color: #635bff;
+    color: #7b7b86;
+    background-color: #352f9c;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.2s ease;
 }
@@ -176,7 +176,7 @@ button:active {
     padding: 24px;
     border: 1px solid #deddea;
     border-radius: 12px;
-    background-color: #ffffff;
+    background-color: #1a1a1e;
 }
 
 .event-card label:not(.agree-row){
@@ -204,18 +204,18 @@ button:active {
 
 body.dark{
     color : #f4f4f4;
-    background-color : #20212a;
+    background-color : #777773;
 }
 
 body.dark p,
 body.dark nav a{
-    color: #d8b8e2;
+    color: #383b27;
 }
 
 body.dark .feature-card,
 body.dark .event-card,
 body.dark .subscribe-card{
-    background-color: #50515f;
+    background-color: #696962;
     border-color: #2d2e38;
 }
 
@@ -240,18 +240,18 @@ body.dark .subscribe-card{
 
 .tab{
     color : #5b5870;
-    background-color : #ffffff;
+    background-color : #1a1a1e;
     border: 1px solid #deddea;
 }
 
 .tab:hover{
     color: #ffffff;
-    background-color: #4b43db;
+    background-color: #4c4b63;
 }
 
 .tab.is-active{
-    color: #635bff;
-    background-color: #ffffff;
+    color: #a8a4ff;
+    background-color: #47477e;
     border-color: #635bff;
     border-bottom: 4px solid currentcolor;
     font-weight: 700;
@@ -259,9 +259,9 @@ body.dark .subscribe-card{
 
 .panel{
     padding: 24px;
-    border : 1px solid #deddea;
+    border : 1px solid #504d66;
     border-radius : 12px;
-    background-color : #f4f3ff;
+    background-color : #1a1a1e;
 
 }
 
@@ -270,8 +270,8 @@ body.dark .subscribe-card{
 }
 
 body.dark .tab{
-    color: #d8b8e2;
-    background-color: #2d2e38;
+    color: #3d3f34;
+    background-color: #696962;
     border-color: #50515f;
 }
 
@@ -283,7 +283,7 @@ body.dark .tab.is-active{
 
 body.dark .panel
 {
-    background-color: #2d2e38;
+    background-color: #696962;
     border-color: #50515f;
 }
 
@@ -356,7 +356,7 @@ body.dark .panel
 
     #subscribeMessage{
         margin-top: 16px;
-        color: #555763;
+        color: #0c0c0e;
     }
 
     #subscribeMessage.is-success{

@@ -1,5 +1,6 @@
 # 6주차 이벤트 처리와 동적 UI 기록
-## 
+## 라이트 다크 버전 수정중
+## 이미지 추가중
 ## input 글자수 10자 max 수정
     const maxLength = nicknameInput.maxLength;
     const currentLength = Math.min(nicknameInput.value.length);

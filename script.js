@@ -51,7 +51,7 @@ const startButton = document.querySelector("#startButton");
 function handleThemeClick() {
     const isDark = document.body.classList.toggle("dark");
 
-    themeButton.textContent = isDark ? "라이트 테마로 바꾸기" : "다크 테마로 바꾸기";
+    themeButton.textContent = isDark ? "다크 테마로 바꾸기" : "라이트 테마로 바꾸기";
 }
 
 themeButton.addEventListener("click", handleThemeClick);
