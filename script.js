@@ -58,7 +58,7 @@ themeButton.addEventListener("click", handleThemeClick);
 
 function handlenicknameInput(){
     const maxLength = nicknameInput.maxLength;
-    const currentLength = Math.min(nicknameInput.value.length);
+    const currentLength = Math.min(nicknameInput.value.length, maxLength);
 
     nicknameCount.textContent = currentLength + " / " + maxLength;
 }
