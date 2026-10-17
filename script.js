@@ -13,7 +13,6 @@ function makeSubscribeMessage(email, subscribed) {
 
 const subscribeform = document.querySelector("#subscribe-form");
 const emailInput = document.querySelector("#email");
-
 const subscribeButton = document.querySelector("#subscribeButton");
 const subscribeMessage = document.querySelector("#subscribeMessage");
 
@@ -42,3 +41,79 @@ function handleSubscribe(event) {
 }
 
 subscribeform.addEventListener("submit", handleSubscribe);
+
+const themeButton = document.querySelector("#themeButton");
+const nicknameInput = document.querySelector("#nickname");
+const nicknameCount = document.querySelector("#nicknameCount");
+const agreeCheck = document.querySelector("#agreeCheck");
+const startButton = document.querySelector("#startButton");
+
+function handleThemeClick() {
+    const isDark = document.body.classList.toggle("dark");
+
+    themeButton.textContent = isDark ? "라이트 테마로 바꾸기" : "다크 테마로 바꾸기";
+}
+
+themeButton.addEventListener("click", handleThemeClick);
+
+function handlenicknameInput(){
+    const maxLength = nicknameInput.maxLength;
+    const currentLength = Math.min(nicknameInput.value.length);
+
+    nicknameCount.textContent = currentLength + " / " + maxLength;
+}
+
+nicknameInput.addEventListener("input", handlenicknameInput);
+
+function handleAgreeChange() {
+   const agreed = agreeCheck.checked;
+
+   startButton.disabled = !agreed;
+   agreeMessage.textContent = agreed
+    ? "캐릭터를 생성할 수 있습니다."
+    : "동의 후 캐릭터를 생성할 수 있습니다.";
+
+   if(agreed) {
+    agreeMessage.classList.add("is-ready");
+   } else {
+    agreeMessage.classList.remove("is-ready");
+
+   }
+}
+
+agreeCheck.addEventListener("change", handleAgreeChange);
+
+const tabs = document.querySelectorAll(".tab");
+const panels = document.querySelectorAll(".panel");
+
+function resetTabsAndPanels() {
+    tabs.forEach(function (tab) {
+        tab.classList.remove("is-active");
+        tab.setAttribute("aria-selected", "false");
+
+    });
+    panels.forEach(function(panel) {
+        panel.classList.remove("is-active");
+        panel.hidden = true;
+    });
+}
+
+function activateTab(clickedTab){
+    const targetSelector = clickedTab.dataset.target;
+    const targetPanel = document.querySelector("#" + targetSelector);
+
+    clickedTab.classList.add("is-active");
+    clickedTab.setAttribute("aria-selected", "true");
+
+    targetPanel.classList.add("is-active");
+    targetPanel.hidden = false;
+}
+
+function handleTabClick(event) {
+    resetTabsAndPanels();
+    activateTab(event.currentTarget);
+}
+
+tabs.forEach(function (tab) {
+    tab.addEventListener("click", handleTabClick);
+});

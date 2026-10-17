@@ -1,3 +1,12 @@
+# 6주차 이벤트 처리와 동적 UI 기록
+## 
+## input 글자수 10자 max 수정
+    const maxLength = nicknameInput.maxLength;
+    const currentLength = Math.min(nicknameInput.value.length);
+
+    nicknameCount.textContent = currentLength + " / " + maxLength;
+
+
 # 5주차 사용자 행동에 반응하는 화면 만들기 기록
 
 ## 1. 사용자(user)가 무엇을 하는지
