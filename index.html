@@ -20,7 +20,7 @@
     -->
   <header>
   <h1>THALASSA</h1>
-  <p>THALASSA 사전예약 페이지</p>
+  <p>THALASSA 가상의 게임 사전예약 페이지</p>
 
   <nav aria-label="주요 메뉴">
     <a href="#about">게임 소개</a>
@@ -140,23 +140,87 @@
         </article>
 
         <article class="event-card">
-          <h3>캐릭터 정보 수집 동의</h3>
+          <h3>테스트 플레이 피드백 수집 동의</h3>
           <label class="agree-row">
             <input type="checkbox" id="agreeCheck">
-            캐릭터 정보 수집에 동의합니다.
+            테스트 플레이 피드백 수집에 동의합니다.
     
           </label>
 
           <p id="agreeMessage" aria-live="polite">
-            동의 후 캐릭터를 생성할 수 있습니다.
+            동의 후 피드백을 작성할 수 있습니다.
           </p>
           <button id ="startButton" type="button" disabled>
-            수집 동의하기
+            테스트 의견 작성 시작하기
           </button>
         </article>
         
         
       </div>
+    </section>
+
+    <dialog id = "recording-dialog" aria-labelledby="recording-title" aria-describedby="recording-description">
+      <h2 id="recording-title">테스트 피드백 작성 안내</h2>
+      <p id = "recording-description">사전에 테스트한 게임의 피드백을 작성할 수 있습니다. 지금은 조건만 설정하여 게임설문은 시작되지 않습니다.</p>
+      <div class = "dialog-actions">
+        <button id="recording-cancel" type="button">돌아가기</button>
+        <button id="recording-confirm" type="button">동의하고 피드백 작성 시작하기</button>
+      </div>
+    </dialog>
+
+    <section id = "training-flow" class="training-flow" hidden>
+      <h2>사전 테스트 피드백</h2>
+      <p class="progress" aria-label="실험 진행 단계">
+        <span class="progress_item">1.캐릭터명</span>
+        <span class="progress_item">2.플레이시간</span>
+        <span class="progress_item">3.확인</span>
+      </p>
+
+      <section class="step" data-step="1" hidden>
+        <h3>게임 테스트에 사용한 캐릭터명을 입력해 주세요.</h3>
+        <label for = "presentation-title">캐릭터명</label>
+        <input id = "presentation-title" type="text" placeholder="예: 김캐릭터" aria-describedby="title-error">
+        <p id="title-error" class="error-message" aria-live="polite"></p>
+        <button id = "title-next" type="button">플레이 시간 선택하기</button>
+      </section>
+
+      <section class="step" data-step="2" hidden>
+        <h3>게임 테스트 플레이에 소요한 시간을 선택해 주세요.</h3>
+        <label for="duration-range">플레이 시간</label>
+        <input id="duration-range" type="range" min="0" max="2" step="1" value="1">
+        <output id="duration-value" for="duration-range">30분</output>
+        <label><input type="checkbox" id="qna-option">로그인 횟수</label>
+        <fieldset id="qna-options" hidden>
+          <legend> 테스트 기간동안 총 로그인 횟수</legend>
+          <label><input type = "radio" name="qna-count" value="1">1회</label>
+          <label><input type = "radio" name="qna-count" value="2" checked>2회</label>
+          <label><input type = "radio" name="qna-count" value="3">3회이상</label>
+        </fieldset>
+        <div class="step-actions">
+          <button id ="option-prev" type="button">이전</button>
+          <button id ="option-next" type="button">내용 확인하기</button>
+        </div>
+      </section>
+
+      <section class="step" data-step="3" hidden>
+        <h3>입력한 내용을 확인해 주세요.</h3>
+        <div class="summary-list">
+          <div><span>캐릭터명</span><strong id="summary-title"></strong></div>
+          <div><span>테스트 시간</span><strong id="summary-duration"></strong></div>
+          <div><span>로그인 횟수</span><strong id="summary-qna"></strong></div>
+        </div>
+        <div class="step-actions">
+          <button id="summary-prev" type="button">수정하기</button>
+          <button id="finish-button" type="button">작성 완료하기</button>
+        </div>
+      </section>
+
+      <section class="step complete-step" data-step="4" hidden>
+        <h3>의견 작성이 완료되었습니다.</h3>
+        <p>설정한 내용을 확인했습니다. 필요하면 다시 작성할 수 있습니다.</p>
+        <button id="restart-button" type="button">다시 작성하기</button>
+      </section>
+
     </section>
 
     <section id="subscribe" class="subscribe-card">
@@ -173,7 +237,7 @@
   </main>
 
   <footer>
-    <small>@2026 THALASSA 사전예약 페이지</small>
+    <small>@2026 가상의게임 THALASSA 사전예약 페이지</small>
   </footer>
 
   <script src="script.js"></script>
