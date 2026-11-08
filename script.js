@@ -114,7 +114,7 @@ tabs.forEach(function (tab) {
     tab.addEventListener("click", handleTabClick);
 });
 
-// 처음 선택된 NULL_7의 테마도 적용
+//
 document.body.classList.add("dark");
 
 const trainingFlow = document.querySelector("#training-flow");
@@ -232,7 +232,7 @@ restartButton.addEventListener("click", () => {
     showStep(0);
 });
 
-// 캐릭터 선점 기능: 기본 DOM, 배열, 이벤트 중심으로 작성
+// 캐릭터 선점 기능
 const reservePanel = document.querySelector("#reservePanel");
 const reserveSteps = document.querySelectorAll("#reservePanel .reserve-step");
 const reserveProgress = document.querySelectorAll(".reserve-progress-item");
@@ -257,10 +257,10 @@ let nicknameChecked = false;
 let currentIndex = -1;
 let savedReservations = [];
 
-// 브라우저에 저장된 선점 목록 불러오기
+// 선점목록
 try {
     savedReservations = JSON.parse(localStorage.getItem(storageName)) || [];
-    if (typeof savedReservations.length !== "number") savedReservations = [];
+    if (!savedReservations || typeof savedReservations.length !== "number") savedReservations = [];
 } catch (error) {
     savedReservations = [];
 }
@@ -269,7 +269,7 @@ function saveReservations() {
     localStorage.setItem(storageName, JSON.stringify(savedReservations));
 }
 
-// 목록과 완료 화면에서 같은 취소 기능 사용
+//
 function removeReservation(index) {
     if (index < 0) return;
     if (!confirm(savedReservations[index].nickname + " 캐릭터의 선점을 취소할까요?")) return;
@@ -310,7 +310,7 @@ function resetReservation() {
     reserveNickname.value = "";
     reserveNicknameCount.textContent = "0 / 10";
     nicknameMessage.textContent = "중복 확인이 필요합니다.";
-    nicknameMessage.classList.remove("is-valid", "is-used");
+    nicknameMessage.classList.remove("is-valid");
     nicknameChecked = false;
     currentIndex = -1;
     showReserveStep(0);
@@ -385,7 +385,7 @@ reserveNickname.addEventListener("input", function() {
     reserveNicknameCount.textContent = reserveNickname.value.length + " / 10";
     nicknameChecked = false;
     nicknameMessage.textContent = "중복 확인이 필요합니다.";
-    nicknameMessage.classList.remove("is-valid", "is-used");
+    nicknameMessage.classList.remove("is-valid");
 });
 
 checkNickname.addEventListener("click", function() {
@@ -393,13 +393,11 @@ checkNickname.addEventListener("click", function() {
     const used = savedReservations.some(function(item) {
         return item.nickname === name;
     });
-    nicknameMessage.classList.remove("is-valid", "is-used");
     if (name === "") {
         nicknameMessage.textContent = "캐릭터명을 입력해주세요.";
         nicknameChecked = false;
     } else if (reservedNames.includes(name) || used) {
         nicknameMessage.textContent = "이미 사용 중인 캐릭터명입니다.";
-        nicknameMessage.classList.add("is-used");
         nicknameChecked = false;
     } else {
         nicknameMessage.textContent = "사용 가능한 캐릭터명입니다.";
