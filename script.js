@@ -42,28 +42,20 @@ function handleSubscribe(event) {
 
 subscribeform.addEventListener("submit", handleSubscribe);
 
-const themeButton = document.querySelector("#themeButton");
-const nicknameInput = document.querySelector("#nickname");
-const nicknameCount = document.querySelector("#nicknameCount");
+// const nicknameInput = document.querySelector("#nickname");
+// const nicknameCount = document.querySelector("#nicknameCount");
 const agreeCheck = document.querySelector("#agreeCheck");
 const startButton = document.querySelector("#startButton");
 
-function handleThemeClick() {
-    const isDark = document.body.classList.toggle("dark");
 
-    themeButton.textContent = isDark ? "다크 테마로 바꾸기" : "라이트 테마로 바꾸기";
-}
+// function handlenicknameInput(){
+//     const maxLength = nicknameInput.maxLength;
+//     const currentLength = Math.min(nicknameInput.value.length, maxLength);
 
-themeButton.addEventListener("click", handleThemeClick);
+//     nicknameCount.textContent = currentLength + " / " + maxLength;
+// }
 
-function handlenicknameInput(){
-    const maxLength = nicknameInput.maxLength;
-    const currentLength = Math.min(nicknameInput.value.length, maxLength);
-
-    nicknameCount.textContent = currentLength + " / " + maxLength;
-}
-
-nicknameInput.addEventListener("input", handlenicknameInput);
+// nicknameInput.addEventListener("input", handlenicknameInput);
 
 function handleAgreeChange() {
    const agreed = agreeCheck.checked;
@@ -112,11 +104,18 @@ function activateTab(clickedTab){
 function handleTabClick(event) {
     resetTabsAndPanels();
     activateTab(event.currentTarget);
+
+    // NYRA, SILEX: 아르카디아 / NULL_7, VARKAN: 에테르
+    const character = event.currentTarget.textContent.trim();
+    document.body.classList.toggle("dark", character === "NULL_7" || character === "VARKAN");
 }
 
 tabs.forEach(function (tab) {
     tab.addEventListener("click", handleTabClick);
 });
+
+// 처음 선택된 NULL_7의 테마도 적용
+document.body.classList.add("dark");
 
 const trainingFlow = document.querySelector("#training-flow");
 const flowSteps = trainingFlow.querySelectorAll(".step");
@@ -232,3 +231,230 @@ restartButton.addEventListener("click", () => {
     summaryQna.textContent = "";
     showStep(0);
 });
+
+// 캐릭터 선점 기능: 기본 DOM, 배열, 이벤트 중심으로 작성
+const reservePanel = document.querySelector("#reservePanel");
+const reserveSteps = document.querySelectorAll("#reservePanel .reserve-step");
+const reserveProgress = document.querySelectorAll(".reserve-progress-item");
+const openReserve = document.querySelector("#openReserve");
+const reserveNext = document.querySelector("#reserveNext");
+const reserveBack = document.querySelector("#reserveBack");
+const reserveNickname = document.querySelector("#reserveNickname");
+const reserveNicknameCount = document.querySelector("#reserveNicknameCount");
+const checkNickname = document.querySelector("#checkNickname");
+const nicknameMessage = document.querySelector("#nicknameMessage");
+const reserveMessage = document.querySelector("#reserveMessage");
+const reservationCards = document.querySelector("#reservationCards");
+const reservationCount = document.querySelector("#reservationCount");
+const reservationEmpty = document.querySelector("#reservationEmpty");
+const reserveCreateAnother = document.querySelector("#reserveCreateAnother");
+const cancelReserve = document.querySelector("#cancelReserve");
+
+const reservedNames = ["관리자", "운영자", "THALASSA"];
+const storageName = "thalassa-character-reservations-v1";
+let reservePage = 0;
+let nicknameChecked = false;
+let currentIndex = -1;
+let savedReservations = [];
+
+// 브라우저에 저장된 선점 목록 불러오기
+try {
+    savedReservations = JSON.parse(localStorage.getItem(storageName)) || [];
+    if (typeof savedReservations.length !== "number") savedReservations = [];
+} catch (error) {
+    savedReservations = [];
+}
+
+function saveReservations() {
+    localStorage.setItem(storageName, JSON.stringify(savedReservations));
+}
+
+// 목록과 완료 화면에서 같은 취소 기능 사용
+function removeReservation(index) {
+    if (index < 0) return;
+    if (!confirm(savedReservations[index].nickname + " 캐릭터의 선점을 취소할까요?")) return;
+    savedReservations.splice(index, 1);
+    saveReservations();
+    showReservationCards();
+    resetReservation();
+    reservePanel.hidden = true;
+}
+
+function selectedRegion() {
+    return document.querySelector('input[name="region-choice"]:checked');
+}
+
+function selectedGuardian() {
+    return document.querySelector('input[name="guardian-choice"]:checked');
+}
+
+function showReserveStep(index) {
+    reservePage = index;
+    reserveSteps.forEach(function(step, i) {
+        step.hidden = i !== index;
+    });
+    reserveProgress.forEach(function(item, i) {
+        item.classList.toggle("is-active", i === Math.min(index, 2));
+        item.classList.toggle("is-done", i < Math.min(index, 2));
+    });
+    reserveBack.hidden = index === 0 || index === 3;
+    reserveNext.hidden = index === 3;
+    reserveNext.textContent = index === 2 ? "선점 완료" : "다음 단계";
+    reserveMessage.textContent = "";
+}
+
+function resetReservation() {
+    document.querySelectorAll('input[name="region-choice"], input[name="guardian-choice"]').forEach(function(input) {
+        input.checked = false;
+    });
+    reserveNickname.value = "";
+    reserveNicknameCount.textContent = "0 / 10";
+    nicknameMessage.textContent = "중복 확인이 필요합니다.";
+    nicknameMessage.classList.remove("is-valid", "is-used");
+    nicknameChecked = false;
+    currentIndex = -1;
+    showReserveStep(0);
+}
+
+function showCompletedReservation(item) {
+    document.querySelector("#completeRegion").textContent = item.region;
+    document.querySelector("#completeGuardian").textContent = item.guardian;
+    document.querySelector("#completeNickname").textContent = item.nickname;
+    reservePanel.hidden = false;
+    showReserveStep(3);
+    reservePanel.scrollIntoView({behavior: "smooth", block: "start"});
+}
+
+// 저장한 캐릭터를 카드로 보여주기
+function showReservationCards() {
+    reservationCards.innerHTML = "";
+    reservationCount.textContent = savedReservations.length;
+    reservationEmpty.hidden = savedReservations.length > 0;
+
+    savedReservations.forEach(function(item, index) {
+        const card = document.createElement("article");
+        card.className = "reservation-card";
+
+        const top = document.createElement("div");
+        top.className = "reservation-card-top";
+        const status = document.createElement("span");
+        status.className = "reservation-card-status";
+        status.textContent = "선점 완료";
+        const date = document.createElement("span");
+        date.className = "reservation-card-date";
+        date.textContent = item.date;
+        top.append(status, date);
+
+        const name = document.createElement("h3");
+        name.textContent = item.nickname;
+        const detail = document.createElement("p");
+        detail.className = "reservation-card-details";
+        detail.textContent = item.region + " · " + item.guardian;
+
+        const actions = document.createElement("div");
+        actions.className = "reservation-card-actions";
+        const viewButton = document.createElement("button");
+        viewButton.type = "button";
+        viewButton.textContent = "내역 보기";
+        viewButton.addEventListener("click", function() {
+            currentIndex = index;
+            showCompletedReservation(item);
+        });
+
+        const cancelButton = document.createElement("button");
+        cancelButton.type = "button";
+        cancelButton.className = "reservation-card-cancel";
+        cancelButton.textContent = "선점 취소";
+        cancelButton.addEventListener("click", function() {
+            removeReservation(index);
+        });
+
+        actions.append(viewButton, cancelButton);
+        card.append(top, name, detail, actions);
+        reservationCards.append(card);
+    });
+}
+
+openReserve.addEventListener("click", function() {
+    resetReservation();
+    reservePanel.hidden = false;
+    reservePanel.scrollIntoView({behavior: "smooth", block: "start"});
+});
+
+reserveNickname.addEventListener("input", function() {
+    reserveNicknameCount.textContent = reserveNickname.value.length + " / 10";
+    nicknameChecked = false;
+    nicknameMessage.textContent = "중복 확인이 필요합니다.";
+    nicknameMessage.classList.remove("is-valid", "is-used");
+});
+
+checkNickname.addEventListener("click", function() {
+    const name = reserveNickname.value.trim();
+    const used = savedReservations.some(function(item) {
+        return item.nickname === name;
+    });
+    nicknameMessage.classList.remove("is-valid", "is-used");
+    if (name === "") {
+        nicknameMessage.textContent = "캐릭터명을 입력해주세요.";
+        nicknameChecked = false;
+    } else if (reservedNames.includes(name) || used) {
+        nicknameMessage.textContent = "이미 사용 중인 캐릭터명입니다.";
+        nicknameMessage.classList.add("is-used");
+        nicknameChecked = false;
+    } else {
+        nicknameMessage.textContent = "사용 가능한 캐릭터명입니다.";
+        nicknameMessage.classList.add("is-valid");
+        nicknameChecked = true;
+    }
+});
+
+reserveNext.addEventListener("click", function() {
+    if (reservePage === 0) {
+        if (!selectedRegion() || !selectedGuardian()) {
+            reserveMessage.textContent = "지역과 수호 캐릭터를 모두 선택해주세요.";
+            return;
+        }
+        showReserveStep(1);
+    } else if (reservePage === 1) {
+        if (!reserveNickname.value.trim() || !nicknameChecked) {
+            reserveMessage.textContent = "캐릭터명 입력과 중복 확인을 완료해주세요.";
+            return;
+        }
+        document.querySelector("#resultRegion").textContent = selectedRegion().value;
+        document.querySelector("#resultGuardian").textContent = selectedGuardian().value;
+        document.querySelector("#resultNickname").textContent = reserveNickname.value.trim();
+        showReserveStep(2);
+    } else if (reservePage === 2) {
+        const item = {
+            region: selectedRegion().value,
+            guardian: selectedGuardian().value,
+            nickname: reserveNickname.value.trim(),
+            date: new Date().toLocaleDateString("ko-KR")
+        };
+        savedReservations.unshift(item);
+        currentIndex = 0;
+        try {
+            saveReservations();
+        } catch (error) {
+            savedReservations.shift();
+            reserveMessage.textContent = "저장하지 못했습니다. 다시 시도해주세요.";
+            return;
+        }
+        showReservationCards();
+        showCompletedReservation(item);
+    }
+});
+
+reserveBack.addEventListener("click", function() {
+    if (reservePage > 0) showReserveStep(reservePage - 1);
+});
+
+reserveCreateAnother.addEventListener("click", function() {
+    resetReservation();
+});
+
+cancelReserve.addEventListener("click", function() {
+    removeReservation(currentIndex);
+});
+
+showReservationCards();

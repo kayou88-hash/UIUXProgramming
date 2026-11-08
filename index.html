@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -36,25 +36,16 @@
   <h2>THALASSA</h2>
   <h3>TITLE</h3>
 
-  <img src="assets/images/service.png" alt="게임 타이틀 이미지">
+  <img src="assets/images/title_s.png" alt="게임 타이틀 이미지">
   <p>'가제'게임 타이틀 BI와 일러스트</p>
-  
-    </section>
+
+  <audio src="assets/Ael Thara Nai.mp3" controls autoplay loop></audio>
+</section>
 
     <section id="features">
- <h2>게임 설명</h2>
+ <h2>캐릭터 설명</h2>
   <div class="tabs" role="tablist" aria-label="기능 선택">
-    <button 
-      id="tab-practice"
-      class="tab is-active"
-      type="button"
-      role="tab"
-      aria-selected="true"
-      aria-controls="feature-practice"
-      data-target="feature-practice">
-      세계관
-    </button>
-
+    
     <button
       id="tab-audience"
       class="tab"
@@ -63,31 +54,45 @@
       aria-selected="false"
       aria-controls="feature-audience"
       data-target="feature-audience">
-      캐릭터 직업
+      NYRA
+  </button>
+    
+  <button 
+      id="tab-practice"
+      class="tab is-active"
+      type="button"
+      role="tab"
+      aria-selected="true"
+      aria-controls="feature-practice"
+      data-target="feature-practice">
+      NULL_7
   </button>
 
+
+
   <button
-    id="tab-feedback"
-    class="tab"
-    type="button"
-    role="tab"
-    aria-selected="false"
-    aria-controls="feature-feedback"
-    data-target="feature-feedback">
-    피드백 제공
-</button>
-  </div>
+      id="tab-feedback"
+      class="tab"
+      type="button"
+      role="tab"
+      aria-selected="false"
+      aria-controls="feature-feedback"
+      data-target="feature-feedback">
+      SILEX
+  </button>
 
-  <div
-    id="feature-practice"
-    class="panel is-active"
-    role="tabpanel"
-    aria-labelledby="tab-practice">
-  <h3>세계관</h3>
-  <img src="assets/images/bg00.png" alt="bg">
-  <p> 게임이 세계관을 확인할 수 있습니다.</p>
-  </div>
+    <button
+      id="tab-feedback2"
+      class="tab"
+      type="button"
+      role="tab"
+      aria-selected="false"
+      aria-controls="feature-feedback2"
+      data-target="feature-feedback2">
+      VARKAN
+  </button>
 
+  </div>
 
   <div
     id="feature-audience"
@@ -95,10 +100,30 @@
     role="tabpanel"
     aria-labelledby="tab-audience"
     hidden>
-  <h3>캐릭터 직업</h3>
-  <img src="assets/images/elyra.png" alt="elyra">
-  <p> 게임내 캐릭터 직업을 확인할 수 있습니다.</p>
+  <h3>NYRA</h3>
+  <video src="assets/images/nyra_02.mp4" autoplay muted></video>
+  <div class="character-intro">
+    <p class="character-info"><strong>소속:</strong> 아르카디아 <span class="character-separator">|</span> <strong>능력:</strong> 자연과 생명</p>
+    <p>고대 세계수의 의지에서 태어난 신비로운 수호자. 생명의 기운을 자유롭게 다루며, 황폐해진 대지를 되살리는 힘을 지녔다. 세계의 균형이 무너질 때 모습을 드러낸다.</p>
+    <p class="character-quote"><strong>한마디:</strong> “생명이 존재하는 한, 희망은 사라지지 않아.”</p>
   </div>
+  </div>
+
+
+  <div
+    id="feature-practice"
+    class="panel is-active"
+    role="tabpanel"
+    aria-labelledby="tab-practice">
+  <h3>NULL_7</h3>
+  <video src="assets/images/null_7_02.mp4" autoplay muted></video>
+  <div class="character-intro">
+    <p class="character-info"><strong>소속:</strong> 에테르 <span class="character-separator">|</span> <strong>능력:</strong> 시공간과 중력</p>
+    <p>멸망한 고대 문명의 마지막 실험체. 감정을 잃은 채 수천 년을 떠돌며 차원의 균열을 감시해 왔다. 세계의 진실을 알고 있지만, 그 목적은 누구도 알지 못한다.</p>
+    <p class="character-quote"><strong>한마디:</strong> “예측된 미래에 너의 존재는 없다.”</p>
+  </div>
+  </div>
+
 
   <div
     id="feature-feedback"
@@ -106,8 +131,28 @@
     role="tabpanel"
     aria-labelledby="tab-feedback"
     hidden>
-  <h3>피드백 제공</h3>
-  <p> 피드백을 제공하여 개선할 부분을 알려줍니다.</p>
+  <h3>SILEX</h3>
+  <video src="assets/images/silex.mp4" autoplay muted></video>
+  <div class="character-intro">
+    <p class="character-info"><strong>소속:</strong> 아르카디아 <span class="character-separator">|</span> <strong>능력:</strong> 빛과 수정</p>
+    <p>순수한 빛과 결정체가 융합되어 탄생한 초월적 존재. 빛을 굴절시켜 환영을 만들어 내며, 수많은 수정 파편으로 적을 제압한다. 완벽한 질서를 추구한다.</p>
+    <p class="character-quote"><strong>한마디:</strong> “모든 거짓은 빛 앞에서 부서진다.”</p>
+  </div>
+  </div>
+
+  <div
+    id="feature-feedback2"
+    class="panel"
+    role="tabpanel"
+    aria-labelledby="tab-feedback2"
+    hidden>
+  <h3>VARKAN</h3>
+  <video src="assets/images/varkan.mp4" autoplay muted></video>
+  <div class="character-intro">
+    <p class="character-info"><strong>소속:</strong> 에테르 <span class="character-separator">|</span> <strong>능력:</strong> 용암과 암석</p>
+    <p>고대 전쟁에서 봉인되었던 전설의 전사. 몸속에 끓어오르는 용암의 힘을 품고 있으며, 압도적인 완력으로 모든 장애물을 파괴한다. 거친 외형과 달리 자신이 인정한 동료는 끝까지 지킨다.</p>
+    <p class="character-quote"><strong>한마디:</strong> “내가 지나간 자리엔 재만 남는다.”</p>
+  </div>
   </div>
 
 </section>
@@ -123,22 +168,100 @@
   </ol>
     </section>
 
+      <section id="character-reservation" aria-labelledby="reservation-title">
+        <div class="reservation-heading">
+          <p class="reservation-eyebrow">THALASSA / CHARACTER RESERVATION</p>
+          <h2 id="reservation-title">캐릭터 선점하기</h2>
+          <p>시작 지역과 수호 캐릭터를 선택해 나만의 캐릭터를 선점하세요.</p>
+          <button type="button" id="openReserve">캐릭터 선점 시작하기</button>
+        </div>
+    
+        <div id="reservePanel" hidden>
+          <div class="reserve-progress" aria-label="캐릭터 선점 진행 단계">
+            <div class="reserve-progress-item is-active"><span>1</span> 지역 · 캐릭터</div>
+            <div class="reserve-progress-item"><span>2</span> 캐릭터명</div>
+            <div class="reserve-progress-item"><span>3</span> 내용 확인</div>
+          </div>
+          <div class="reserve-inner">
+            <div class="reserve-step">
+              <p class="reserve-kicker">STEP 01 / 기본 정보</p>
+              <h3>어떤 캐릭터를 선점할까요?</h3>
+              <p class="reserve-help">지역과 수호 캐릭터를 선택해 주세요.</p>
+              <fieldset class="reserve-fieldset">
+                <legend>시작 지역 <em>필수</em></legend>
+                <div class="reserve-choice-grid region-grid">
+                  <label class="reserve-choice"><input type="radio" name="region-choice" value="아르카디아"><span>아르카디아</span></label>
+                  <label class="reserve-choice"><input type="radio" name="region-choice" value="네레이아"><span>네레이아</span></label>
+                  <label class="reserve-choice"><input type="radio" name="region-choice" value="에테르"><span>에테르</span></label>
+                </div>
+              </fieldset>
+              <fieldset class="reserve-fieldset">
+                <legend>수호 캐릭터 <em>필수</em></legend>
+                <div class="reserve-choice-grid guardian-grid">
+                  <label class="reserve-choice"><input type="radio" name="guardian-choice" value="NYRA"><span>NYRA</span></label>
+                  <label class="reserve-choice"><input type="radio" name="guardian-choice" value="NULL_7"><span>NULL_7</span></label>
+                  <label class="reserve-choice"><input type="radio" name="guardian-choice" value="SILEX"><span>SILEX</span></label>
+                  <label class="reserve-choice"><input type="radio" name="guardian-choice" value="VARKAN"><span>VARKAN</span></label>
+                </div>
+              </fieldset>
+            </div>
+            <div class="reserve-step" hidden>
+              <p class="reserve-kicker">STEP 02 / 캐릭터명</p>
+              <h3>캐릭터명을 입력해 주세요.</h3>
+              <p class="reserve-help">10자 이내의 캐릭터명을 입력하고 중복 확인해 주세요.</p>
+              <label class="reserve-input-label" for="reserveNickname">캐릭터명 <em>필수</em></label>
+              <input type="text" id="reserveNickname" maxlength="10" placeholder="캐릭터명 입력" autocomplete="off">
+              <div class="reserve-name-info"><p id="nicknameMessage" aria-live="polite">중복 확인이 필요합니다.</p><span id="reserveNicknameCount">0 / 10</span></div>
+              <button type="button" id="checkNickname">중복 확인</button>
+            </div>
+            <div class="reserve-step" hidden>
+              <p class="reserve-kicker">STEP 03 / 내용 확인</p>
+              <h3>선점 정보를 확인해 주세요.</h3>
+              <p class="reserve-help">입력한 내용을 확인한 뒤 선점을 완료하세요.</p>
+              <div class="reserve-summary" id="reserveReview">
+                <p>시작 지역 <strong id="resultRegion"></strong></p>
+                <p>수호 캐릭터 <strong id="resultGuardian"></strong></p>
+                <p>캐릭터명 <strong id="resultNickname"></strong></p>
+              </div>
+            </div>
+            <div class="reserve-step" hidden>
+              <p class="reserve-kicker">RESERVATION COMPLETE</p>
+              <h3>캐릭터 선점 완료!</h3>
+              <p class="reserve-help">선점이 완료되었습니다.</p>
+              <div class="reserve-summary">
+                <p>시작 지역 <strong id="completeRegion"></strong></p>
+                <p>수호 캐릭터 <strong id="completeGuardian"></strong></p>
+                <p>캐릭터명 <strong id="completeNickname"></strong></p>
+              </div>
+              <button type="button" id="reserveCreateAnother">새 캐릭터 선점하기</button>
+              <button type="button" id="cancelReserve">현재 선점 취소하기</button>
+            </div>
+            <p id="reserveMessage" role="status" aria-live="polite"></p>
+            <div class="reserve-actions">
+              <button type="button" id="reserveBack" hidden>이전 단계</button>
+              <button type="button" id="reserveNext">다음 단계</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 선점 완료된 캐릭터 목록: 기존 페이지 구조와 디자인은 유지 -->
+      <section id="reservation-history" aria-labelledby="reservation-history-title">
+        <div class="reservation-history-heading">
+          <div>
+            <p class="reservation-eyebrow">MY RESERVATIONS</p>
+            <h2 id="reservation-history-title">내 캐릭터 선점 내역 <span id="reservationCount">0</span></h2>
+          </div>
+          <p>선점한 캐릭터를 확인하거나 취소할 수 있습니다.</p>
+        </div>
+        <div id="reservationCards" class="reservation-card-grid"></div>
+        <p id="reservationEmpty" class="reservation-empty">아직 선점한 캐릭터가 없습니다.</p>
+      </section>
+
     <section id="event-practice">
       <h2>  사전예약 준비 </h2>
 
       <div class = "event-grid">
-        <article class="event-card">
-          <h3>화면 테마</h3>
-          <button id="themeButton" type="button">라이트 테마 바꾸기</button>
-        </article>
-
-        <article class="event-card">
-          <h3>캐릭터명 선점하기</h3>
-          <label for="nickname">캐릭터명</label>
-          <input type="text" id="nickname" maxlength="10">
-          <p id="nicknameCount" aria-live="polite">0 / 10</p>
-        </article>
-
         <article class="event-card">
           <h3>테스트 플레이 피드백 수집 동의</h3>
           <label class="agree-row">
@@ -235,6 +358,7 @@
   </p>
     </section>
   </main>
+
 
   <footer>
     <small>@2026 가상의게임 THALASSA 사전예약 페이지</small>
