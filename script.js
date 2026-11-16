@@ -1,3 +1,42 @@
+// 주소에 맞는 현재 메뉴 표시 및 모바일 메뉴
+const navLinks = document.querySelectorAll(".main-nav a");
+const menuToggle = document.querySelector("#menu-toggle");
+const mainNav = document.querySelector("#main-nav");
+
+function updateCurrentNav() {
+    const currentHash = window.location.hash;
+    navLinks.forEach(function(link) {
+        const current = currentHash
+            ? link.getAttribute("href") === currentHash
+            : link === navLinks[0];
+        link.classList.toggle("is-current", current);
+        if (current) {
+            link.setAttribute("aria-current", "page");
+        } else {
+            link.removeAttribute("aria-current");
+        }
+    });
+}
+
+window.addEventListener("hashchange", updateCurrentNav);
+updateCurrentNav();
+
+menuToggle.addEventListener("click", function() {
+    const isOpen = mainNav.classList.toggle("is-open");
+    menuToggle.textContent = isOpen ? "메뉴 닫기" : "메뉴 열기";
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+});
+
+navLinks.forEach(function(link) {
+    link.addEventListener("click", function() {
+        mainNav.classList.remove("is-open");
+        menuToggle.textContent = "메뉴 열기";
+        menuToggle.setAttribute("aria-expanded", "false");
+        // 같은 해시를 다시 클릭해도 현재 메뉴를 갱신합니다.
+        updateCurrentNav();
+    });
+});
+
 const serviceName = "THALASSA";
 let isSubscribed = false;
 let submitCount = 0;
@@ -249,6 +288,20 @@ const reservationCount = document.querySelector("#reservationCount");
 const reservationEmpty = document.querySelector("#reservationEmpty");
 const reserveCreateAnother = document.querySelector("#reserveCreateAnother");
 const cancelReserve = document.querySelector("#cancelReserve");
+const filterButtons = document.querySelectorAll(".filter-button");
+let currentFilter = "all";
+
+filterButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+        currentFilter = button.dataset.filter;
+        filterButtons.forEach(function(item) {
+            const selected = item === button;
+            item.classList.toggle("is-active", selected);
+            item.setAttribute("aria-pressed", String(selected));
+        });
+        showReservationCards();
+    });
+});
 
 const reservedNames = ["관리자", "운영자", "THALASSA"];
 const storageName = "thalassa-character-reservations-v1";
@@ -260,7 +313,11 @@ let savedReservations = [];
 // 선점목록
 try {
     savedReservations = JSON.parse(localStorage.getItem(storageName)) || [];
-    if (!savedReservations || typeof savedReservations.length !== "number") savedReservations = [];
+    if (!Array.isArray(savedReservations)) savedReservations = [];
+    // 기존 저장 기록에는 cancelled 속성이 없으므로 선점 완료로 취급합니다.
+    savedReservations.forEach(function(item) {
+        if (typeof item.cancelled !== "boolean") item.cancelled = false;
+    });
 } catch (error) {
     savedReservations = [];
 }
@@ -271,10 +328,16 @@ function saveReservations() {
 
 //
 function removeReservation(index) {
-    if (index < 0) return;
+    if (index < 0 || !savedReservations[index] || savedReservations[index].cancelled) return;
     if (!confirm(savedReservations[index].nickname + " 캐릭터의 선점을 취소할까요?")) return;
-    savedReservations.splice(index, 1);
-    saveReservations();
+    savedReservations[index].cancelled = true;
+    try {
+        saveReservations();
+    } catch (error) {
+        savedReservations[index].cancelled = false;
+        alert("취소 상태를 저장하지 못했습니다. 다시 시도해주세요.");
+        return;
+    }
     showReservationCards();
     resetReservation();
     reservePanel.hidden = true;
@@ -311,6 +374,7 @@ function resetReservation() {
     reserveNicknameCount.textContent = "0 / 10";
     nicknameMessage.textContent = "중복 확인이 필요합니다.";
     nicknameMessage.classList.remove("is-valid");
+    cancelReserve.hidden = false;
     nicknameChecked = false;
     currentIndex = -1;
     showReserveStep(0);
@@ -320,6 +384,10 @@ function showCompletedReservation(item) {
     document.querySelector("#completeRegion").textContent = item.region;
     document.querySelector("#completeGuardian").textContent = item.guardian;
     document.querySelector("#completeNickname").textContent = item.nickname;
+    // 취소된 기록은 확인할 수 있지만 다시 취소할 수 없습니다.
+    cancelReserve.hidden = item.cancelled === true;
+    reserveSteps[3].querySelector(".reserve-help").textContent =
+        item.cancelled ? "취소된 선점 내역입니다." : "선점이 완료되었습니다.";
     reservePanel.hidden = false;
     showReserveStep(3);
     reservePanel.scrollIntoView({behavior: "smooth", block: "start"});
@@ -327,11 +395,22 @@ function showCompletedReservation(item) {
 
 // 저장한 캐릭터를 카드로 보여주기
 function showReservationCards() {
-    reservationCards.innerHTML = "";
-    reservationCount.textContent = savedReservations.length;
-    reservationEmpty.hidden = savedReservations.length > 0;
+    const visibleReservations = savedReservations.filter(function(item) {
+        if (currentFilter === "cancelled") return item.cancelled === true;
+        if (currentFilter === "active") return item.cancelled !== true;
+        return true;
+    });
 
-    savedReservations.forEach(function(item, index) {
+    reservationCards.innerHTML = "";
+    reservationCount.textContent = visibleReservations.length;
+    reservationCount.setAttribute("aria-label", "현재 표시 중인 선점 내역 " + visibleReservations.length + "건");
+    reservationEmpty.hidden = visibleReservations.length !== 0;
+    reservationEmpty.textContent = savedReservations.length === 0
+        ? "아직 선점한 캐릭터가 없습니다."
+        : "선택한 상태의 캐릭터가 없습니다. 다른 필터를 선택해 보세요.";
+
+    visibleReservations.forEach(function(item) {
+        const index = savedReservations.indexOf(item);
         const card = document.createElement("article");
         card.className = "reservation-card";
 
@@ -339,7 +418,8 @@ function showReservationCards() {
         top.className = "reservation-card-top";
         const status = document.createElement("span");
         status.className = "reservation-card-status";
-        status.textContent = "선점 완료";
+        status.textContent = item.cancelled ? "취소됨" : "선점 완료";
+        if (item.cancelled) card.classList.add("is-cancelled");
         const date = document.createElement("span");
         date.className = "reservation-card-date";
         date.textContent = item.date;
@@ -369,7 +449,8 @@ function showReservationCards() {
             removeReservation(index);
         });
 
-        actions.append(viewButton, cancelButton);
+        actions.append(viewButton);
+        if (!item.cancelled) actions.append(cancelButton);
         card.append(top, name, detail, actions);
         reservationCards.append(card);
     });
@@ -391,7 +472,7 @@ reserveNickname.addEventListener("input", function() {
 checkNickname.addEventListener("click", function() {
     const name = reserveNickname.value.trim();
     const used = savedReservations.some(function(item) {
-        return item.nickname === name;
+        return item.nickname === name && !item.cancelled;
     });
     if (name === "") {
         nicknameMessage.textContent = "캐릭터명을 입력해주세요.";
@@ -427,7 +508,8 @@ reserveNext.addEventListener("click", function() {
             region: selectedRegion().value,
             guardian: selectedGuardian().value,
             nickname: reserveNickname.value.trim(),
-            date: new Date().toLocaleDateString("ko-KR")
+            date: new Date().toLocaleDateString("ko-KR"),
+            cancelled: false
         };
         savedReservations.unshift(item);
         currentIndex = 0;
