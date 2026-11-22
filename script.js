@@ -16,16 +16,33 @@ function updateCurrentNav() {
             link.removeAttribute("aria-current");
         }
     });
+
+    const currentLink = document.querySelector('.main-nav a[aria-current="page"]');
+    const pageName = currentLink ? currentLink.textContent.trim() : "홈";
+    document.title = pageName + " | THALASSA";
+
 }
 
 window.addEventListener("hashchange", updateCurrentNav);
 updateCurrentNav();
 
-menuToggle.addEventListener("click", function() {
+    menuToggle.addEventListener("click", function() {
     const isOpen = mainNav.classList.toggle("is-open");
     menuToggle.textContent = isOpen ? "메뉴 닫기" : "메뉴 열기";
     menuToggle.setAttribute("aria-expanded", String(isOpen));
+
 });
+
+// Esc 키로 모바일 메뉴 닫기
+document.addEventListener("keydown", function(event) {
+    if (event.key !== "Escape" || !mainNav.classList.contains("is-open")) return;
+
+    mainNav.classList.remove("is-open");
+    menuToggle.textContent = "메뉴 열기";
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.focus();
+});
+
 
 navLinks.forEach(function(link) {
     link.addEventListener("click", function() {
@@ -393,7 +410,7 @@ function showCompletedReservation(item) {
     reservePanel.scrollIntoView({behavior: "smooth", block: "start"});
 }
 
-// 저장한 캐릭터를 카드로 보여주기
+// 저장한 캐릭터를 카드로
 function showReservationCards() {
     const visibleReservations = savedReservations.filter(function(item) {
         if (currentFilter === "cancelled") return item.cancelled === true;

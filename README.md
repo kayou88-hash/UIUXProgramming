@@ -1,3 +1,28 @@
+# 11주차 기록
+
+## 1. 사용자(user)가 무엇을 하는지
+사용자는 TAB키를 이용하여 메뉴를 이동하고 선택된 내용의 강조 효과를 확인하며, 키보드로 웹페이지를 조작할 수 있습니다.
+## 2. 화면에서 무엇이 바뀌는지
+선택된 메뉴의 필터에 굵기 및 밑줄 표시
+메뉴 선택에 따라 탭 제목 변경
+입력 글자 수와 오류 시 상태 안내
+키보드 Tab 이동
+Esc키로 모바일 메뉴 닫기 가능
+
+## 3. 어떤 코드로 연결했는지
+aria-current, aria-pressed 선택 상태 표시
+document.title 탭 제목 변경
+addEventListener("keydown") ESC처리
+focus() 키보드 이동
+aria-label, alt 요소 설명
+aria-live 상태 변경 안내
+CSS 에서 focus-visible 초첨표시
+
+## 4. 테스트 결과
+Tab, Enter, Esc 동작 확인
+Windows내래이터 낭독 확인(Windows+Ctrl+Enter)
+모바일 화면 메뉴 열기,닫기 확인
+
 # 10주차 기록
 
 ## 1. 사용자(user)가 무엇을 하는지

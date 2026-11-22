@@ -629,7 +629,7 @@ body.dark .reservation-card, body.dark .reservation-empty { background: rgba(66,
     color: #4caf50;
 }
 
-/* 강의 적용: 주소에 따른 현재 메뉴 표시 */
+/* 선택된 메뉴 보라색 강조 */
 .main-nav a.is-current {
     color: #b9b5ff;
     background: rgba(99, 91, 255, .20);
@@ -640,7 +640,7 @@ body.dark .reservation-card, body.dark .reservation-empty { background: rgba(66,
 .main-nav a:hover { color: #b9b5ff; }
 .menu-toggle { display: none; }
 
-/* 강의 적용: 캐릭터 선점 목록 상태 필터 */
+/* 캐릭터 선점 목록*/
 .plan-filters {
     display: flex;
     flex-wrap: wrap;
@@ -667,7 +667,7 @@ body.dark .reservation-card, body.dark .reservation-empty { background: rgba(66,
 }
 #cancelReserve[hidden] { display: none; }
 
-/* 강의 적용: 600px 이하에서 열고 닫는 모바일 메뉴 */
+/* 모바일 600px */
 @media (max-width: 600px) {
     .menu-toggle {
         display: inline-flex;
